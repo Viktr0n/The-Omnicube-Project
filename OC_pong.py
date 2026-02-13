@@ -60,7 +60,7 @@ display._write_reg(0x20, 0x08)
 display.txt_size(2)
 display.fill(BLACK)
 
-def point(player):
+def score(player):
 	global pointPlr1, pointPlr2, plr1Pos, plr2Pos, ballX, ballY, ballXspeed, ballYspeed
 	if(player == 1): # handles points
 		pointPlr1 += 1
@@ -282,9 +282,9 @@ async def run():
             if(player1_input[4] and player2_input[4]):
                 isPlaying = False
             if ballX < 49 + ballXspeed and ballXspeed < 0:
-                point(2)
+                score(2)
             if ballX > display.width-89 + ballXspeed and ballXspeed > 0:
-        	    point(1)
+        	    score(1)
             update_display()
             if not (client1 and client1.is_connected) or not (client2 and client2.is_connected): # If a controller disconnects, pause the game
                 isWaiting = True
