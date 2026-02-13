@@ -177,7 +177,8 @@ def update_display():
 	if ballX > display.width-90 and ballY+10 > plr2Pos+80 and ballY+10 < plr2Pos+110:
 		ballXspeed = -7
 		ballYspeed = 20
-	
+
+	# ball x wall collision detection
 	if ballY < 5 or ballY > display.height-25:
 		ballYspeed = -ballYspeed
 	ballX += ballXspeed
