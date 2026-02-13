@@ -27,7 +27,7 @@ bool deviceConnected = false; // Is the device connected
 
 // Controller inputs
 bool controllerInputsCurrent[6] = {}; // 0 - up, 1 - right, 2 - down, 3 - left, 4 - b, 5 - a
-bool controllerInputsOld[6] = {1, 1, 1, 1, 1, 1}; // Used to check for changed inputs
+bool controllerInputsOld[6] = {0, 0, 0, 0, 0, 0}; // Used to check for changed inputs
 
 
 class MyServerCallbacks : public BLEServerCallbacks {
