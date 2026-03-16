@@ -28,11 +28,13 @@ client2 = None
 BLACK = color565(0, 0, 0)
 WHITE = color565(255, 255, 255)
 
+newInput = True
+
 isWaiting = True
 isPlaying = False
 
 plr1Pos = 200 #min 0, max 380
-plr2Pos = 260
+plr2Pos = 200
 
 ballX = 400 # distance from top in portrait
 ballY = 240 # distance from left wall in portrait
@@ -109,7 +111,7 @@ def pause():
 	display.txt_write("to quit game")
 	
 	if client1 and client1.is_connected: # connection status plr 1
-		display.txt_set_cursor(int(display.width/8), int(display.width/8))
+		display.txt_set_cursor(int(display.width/8), int(display.height/8))
 		display.txt_write("plr 1")
 	else:
 		display.txt_set_cursor(int(display.width/8), int(display.width/8))
@@ -117,8 +119,8 @@ def pause():
 		display.txt_write("plr 1")
 		display.txt_trans(WHITE)
 
-	if client1 and client1.is_connected: # connection status plr 2
-		display.txt_set_cursor(int(display.width/8), int(display.width/8*5))
+	if client2 and client2.is_connected: # connection status plr 2
+		display.txt_set_cursor(int(display.width/8), int(display.height/8*6))
 		display.txt_write("plr 2")
 	else:
 		display.txt_set_cursor(int(display.width/8), int(display.width/8*5))
@@ -259,6 +261,7 @@ async def run():
             if player1_input[5] == 1 and player2_input[5] == 1: # Example start condition
                 isWaiting = False
                 isPlaying = True
+            await asyncio.sleep(0.01)
 
         display.fill(BLACK)
 
@@ -273,7 +276,7 @@ async def run():
             if not (client1 and client1.is_connected) or not (client2 and client2.is_connected): # If a controller disconnects, pause the game
                 isWaiting = True
                 isPlaying = False
-        await asyncio.sleep(0.001)
+            await asyncio.sleep(0.01)
 
 # --- Execution ---
 if __name__ == "__main__":
