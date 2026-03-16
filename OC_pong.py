@@ -3,6 +3,7 @@ import board
 import busio
 import digitalio
 import random
+import math
 
 import asyncio
 from bleak import BleakClient, BleakScanner
@@ -30,14 +31,16 @@ WHITE = color565(255, 255, 255)
 isWaiting = True
 isPlaying = False
 
-plr1Pos = 190 #min 0, max 380
-plr2Pos = 190
+plr1Pos = 200 #min 0, max 380
+plr2Pos = 260
 
-ballX = 400
-ballY = 240
+ballX = 400 # distance from top in portrait
+ballY = 240 # distance from left wall in portrait
 
-ballXspeed = 10
-ballYspeed = 10
+ballSpeed = 12
+ballDirection = 270
+
+minBounceAngle = 30 # the minimum angle the ball can bounce of a player
 
 pointPlr1 = 0
 pointPlr2 = 0
@@ -60,8 +63,12 @@ display._write_reg(0x20, 0x08)
 display.txt_size(2)
 display.fill(BLACK)
 
+def map(a, min1, max1, min2, max2): # maps a in range min1 - max1 to b in range min2 - max2
+	b = (a-min1)*(max2-min2)/(max1-min1)+min2
+	return b
+
 def score(player):
-	global pointPlr1, pointPlr2, plr1Pos, plr2Pos, ballX, ballY, ballXspeed, ballYspeed
+	global pointPlr1, pointPlr2, plr1Pos, plr2Pos, ballX, ballY, ballSpeed, ballDirection
 	if(player == 1): # handles points
 		pointPlr1 += 1
 	else:
@@ -76,12 +83,14 @@ def score(player):
 	display.txt_write(str(pointPlr2))
 	time.sleep(1.5)
 	# Resets positions
-	plr1Pos = 190
-	plr2Pos = 190
+	plr1Pos = 200
+	plr2Pos = 200
 	ballX = 400
 	ballY = 240
-	ballXspeed = 10
-	ballYspeed = 10
+	if(random.randint(0,1)):
+		ballDirection = random.randint(minBounceAngle,180-minBounceAngle)
+	else:
+		ballDirection = random.randint(180+minBounceAngle,360-minBounceAngle)
 	display.fill(BLACK)
 	
 def pause():
@@ -118,8 +127,7 @@ def pause():
 		display.txt_trans(WHITE)
 
 def update_display():
-	global player1_input, player2_input, plr1Pos, plr2Pos, ballX, ballY, ballXspeed, ballYspeed
-	display.fill(BLACK)
+	global player1_input, player2_input, plr1Pos, plr2Pos, ballX, ballY, ballSpeed, ballDirection
 	if(player1_input[1] == 1 and player1_input[3] == 0):
 		plr1Pos += 15
 	if(player1_input[3] == 1 and player1_input[1] == 0):
@@ -132,57 +140,34 @@ def update_display():
 	plr1Pos = min(380, max(0, plr1Pos)) # Constrain position to 0 < x < 380
 	plr2Pos = min(380, max(0, plr2Pos))
 	
-	# Draws player 1
+	# Draws player 1 (top player)
 	display.fill_rect(20, 0, 20, plr1Pos, BLACK)
 	display.fill_rect(20, plr1Pos+100, 20, display.height-plr1Pos-100, BLACK)
 	display.fill_rect(20, plr1Pos, 20, 100, WHITE)
 	
-	# Draws player 2
+	# Draws player 2 (bottom player)
 	display.fill_rect(display.width - 60, 0, 20, plr2Pos, BLACK)
 	display.fill_rect(display.width - 60, plr2Pos + 100, 20, display.height-plr2Pos-100, BLACK)
 	display.fill_rect(display.width - 60, plr2Pos, 20, 100, WHITE)
-	
-	display.fill_rect(ballX, ballY, 20, 20, BLACK)
+    
+	prevBallX = ballX
+	prevBallY = ballY
 	
 	# ball x plr 1 collision detection
-	if ballX < 50 and ballY+10 > plr1Pos-10 and ballY+10 < plr1Pos+20:
-		ballXspeed = 7
-		ballYspeed = -20
-	if ballX < 50 and ballY+10 > plr1Pos+20 and ballY+10 < plr1Pos+40:
-		ballXspeed = 10
-		ballYspeed = -10
-	if ballX < 50 and ballY+10 > plr1Pos+40 and ballY+10 < plr1Pos+60:
-		ballXspeed = 20
-		ballYspeed = 0
-	if ballX < 50 and ballY+10 > plr1Pos+60 and ballY+10 < plr1Pos+80:
-		ballXspeed = 10
-		ballYspeed = 10
-	if ballX < 50 and ballY+10 > plr1Pos+80 and ballY+10 < plr1Pos+110:
-		ballXspeed = 7
-		ballYspeed = 20
+	if ballX < 50 and ballY+10 > plr1Pos-10 and ballY+10 < plr1Pos+110:
+		ballDirection = map(ballY-plr1Pos, 99, -19, 360-minBounceAngle, 180+minBounceAngle)
 	
 	# ball x plr 2 collision detection
-	if ballX > display.width-90 and ballY+10 > plr2Pos-10 and ballY+10 < plr2Pos+20:
-		ballXspeed = -7
-		ballYspeed = -20
-	if ballX > display.width-90 and ballY+10 > plr2Pos+20 and ballY+10 < plr2Pos+40:
-		ballXspeed = -10
-		ballYspeed = -10
-	if ballX > display.width-90 and ballY+10 > plr2Pos+40 and ballY+10 < plr2Pos+60:
-		ballXspeed = -20
-		ballYspeed = 0
-	if ballX > display.width-90 and ballY+10 > plr2Pos+60 and ballY+10 < plr2Pos+80:
-		ballXspeed = -10
-		ballYspeed = 10
-	if ballX > display.width-90 and ballY+10 > plr2Pos+80 and ballY+10 < plr2Pos+110:
-		ballXspeed = -7
-		ballYspeed = 20
+	if ballX > display.width-90 and ballY+10 > plr2Pos-10 and ballY+10 < plr2Pos+110:
+		ballDirection = map(ballY-plr2Pos, 99, -19, minBounceAngle, 180-minBounceAngle)
 
 	# ball x wall collision detection
-	if ballY < 5 or ballY > display.height-25:
-		ballYspeed = -ballYspeed
-	ballX += ballXspeed
-	ballY += ballYspeed
+	if ballY < 10 or ballY > display.height-25: # left wall
+		ballDirection = 180-ballDirection
+	ballDirection = ballDirection % 360
+	ballX -= int(math.sin(math.radians(ballDirection))*ballSpeed) # x = hight in portrait
+	ballY += int(math.cos(math.radians(ballDirection))*ballSpeed) # y = width in portrait
+	display.fill_rect(prevBallX, prevBallY, 20, 20, BLACK)
 	display.fill_rect(ballX, ballY, 20, 20, WHITE)
 
 def notification_handler_plr1(sender, data):
@@ -280,9 +265,9 @@ async def run():
         while isPlaying:
             if(player1_input[4] and player2_input[4]):
                 isPlaying = False
-            if ballX < 49 + ballXspeed and ballXspeed < 0:
+            if ballX < 49 - ballSpeed and ballDirection < 180:
                 score(2)
-            if ballX > display.width-89 + ballXspeed and ballXspeed > 0:
+            if ballX > display.width-89 + ballSpeed and ballDirection > 180:
         	    score(1)
             update_display()
             if not (client1 and client1.is_connected) or not (client2 and client2.is_connected): # If a controller disconnects, pause the game
