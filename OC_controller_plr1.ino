@@ -113,10 +113,6 @@ void loop() {
     offMillis = millis();
   }
 
-  if(millis()-offMillis > ACTIVE_POWER_OFF * 1000 || millis()-inactiveMillis > INACTIVE_POWER_OFF * 1000){
-    ESPSleep();
-  }
-
   for(int i = 0; i <= 5; i++){ // Check for Changes
     if(controllerInputsCurrent[i] != controllerInputsOld[i]){
       inputs_changed = true;
@@ -133,5 +129,9 @@ void loop() {
       pCharacteristic->setValue((uint8_t *)&data_to_send, 4);
       pCharacteristic->notify();
     }
+  }
+  
+  if(millis()-offMillis > ACTIVE_POWER_OFF * 1000 || millis()-inactiveMillis > INACTIVE_POWER_OFF * 1000){
+    ESPSleep();
   }
 }
