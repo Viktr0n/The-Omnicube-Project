@@ -4,6 +4,7 @@
 #include <BLE2902.h>
 #include <BLE2901.h>
 #include <cmath>
+#include "driver/rtc_io.h"
 
 BLEServer *pServer = NULL;
 BLECharacteristic *pCharacteristic = NULL;
@@ -34,7 +35,6 @@ unsigned long offMillis; // Millis since last pressing A + B
 bool controllerInputsCurrent[6] = {}; // 0 - up, 1 - right, 2 - down, 3 - left, 4 - b, 5 - a
 bool controllerInputsOld[6] = {0, 0, 0, 0, 0, 0}; // Used to check for changed inputs
 
-
 class MyServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer *pServer) { // When connects to RPi, update connection variable
       deviceConnected = true;
@@ -47,8 +47,13 @@ class MyServerCallbacks : public BLEServerCallbacks {
 };
 
 void ESPSleep(){
-  Serial.flush(); // Clear serial
-  esp_deep_sleep_start(); // Start sleeping
+  // Enable external wakeup from up button
+  esp_sleep_enable_ext0_wakeup((gpio_num_t)DPAD_UP_PIN, 0);
+  rtc_gpio_pullup_en((gpio_num_t)DPAD_UP_PIN);
+  rtc_gpio_pulldown_dis((gpio_num_t)DPAD_UP_PIN); 
+
+  Serial.flush(); 
+  esp_deep_sleep_start(); 
 }
 
 void setup() {
