@@ -52,7 +52,7 @@ void ESPSleep(){
 }
 
 void setup() {
-  setCpuFrequencyMhz(80); // Set to 80MHz immediately to save power
+  setCpuFrequencyMhz(80); // Set to 80MHz to save power
 
   // Pin Initialization
   pinMode(DPAD_UP_PIN, INPUT_PULLUP);
