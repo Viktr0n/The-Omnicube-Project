@@ -89,7 +89,7 @@ def score(player):
 	plr2Pos = 200
 	ballX = 400
 	ballY = 240
-	if(random.randint(0,1)):
+	if(random.randint(0,1)): # Randomizes ball direction
 		ballDirection = random.randint(minBounceAngle,180-minBounceAngle)
 	else:
 		ballDirection = random.randint(180+minBounceAngle,360-minBounceAngle)
