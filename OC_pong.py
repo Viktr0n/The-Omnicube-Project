@@ -39,7 +39,7 @@ plr2Pos = 200
 ballX = 400 # distance from top in portrait
 ballY = 240 # distance from left wall in portrait
 
-ballSpeed = 12
+ballSpeed = 20
 ballDirection = 270
 
 minBounceAngle = 30 # the minimum angle the ball can bounce of a player
