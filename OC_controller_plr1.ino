@@ -3,7 +3,6 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 #include <BLE2901.h>
-#include <cmath>
 #include "driver/rtc_io.h"
 
 BLEServer *pServer = NULL;
