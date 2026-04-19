@@ -64,7 +64,7 @@ def update_display():
         elif(player1_input[2] == 1 or player2_input[2] == 1):
             select += 1
         select %= 4
-        try:
+        try:    
             display.fill(BLUE)
             display.fill_rect(int(display.width/6*(select+1.5)+10), 0, 55, int(display.height), CYAN)
             display.txt_trans(WHITE)
@@ -131,11 +131,11 @@ async def handle_player(name, char_uuid, handler):
                     client2 = client
                 print(f"Connected to {name} ({device.address})")
                 await client.start_notify(char_uuid, handler)
-
+                
                 # Keep this task alive as long as the client is connected
                 while client.is_connected:
-                    await asyncio.sleep(1.0)
-
+                    await asyncio.sleep(1.0) 
+                
                 print(f"Connection lost to {name}. Reconnecting...")
         except Exception as e:
             print(f"Error in {name} manager: {e}")
@@ -144,15 +144,16 @@ async def handle_player(name, char_uuid, handler):
 
 async def run():
     global newInput
-
+    
     # 1. Start Player 1
     p1_task = asyncio.create_task(
         handle_player(PLR1_NAME, PLR1_CHARACTERISTIC_UUID, notification_handler_plr1)
     )
-
-    # Give Player 1 time to finish scanning/connecting
+    
+    # 2. WAIT before starting Player 2
+    # This gives Player 1 time to finish scanning/connecting
     print("Waiting for Player 1 to initialize...")
-    await asyncio.sleep(2.0)
+    await asyncio.sleep(2.0) 
 
     # 3. Start Player 2
     p2_task = asyncio.create_task(
@@ -191,6 +192,7 @@ async def run():
 # --- Execution ---
 if __name__ == "__main__":
     try:
+        # This is required to run asynchronous functions
         asyncio.run(run())
     except KeyboardInterrupt:
         print("\nClient stopped by user.")
