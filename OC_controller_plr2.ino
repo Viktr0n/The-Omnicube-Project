@@ -130,7 +130,7 @@ void loop() {
       pCharacteristic->notify();
     }
   }
-
+  
   if(millis()-offMillis > ACTIVE_POWER_OFF * 1000 || millis()-inactiveMillis > INACTIVE_POWER_OFF * 1000){
     ESPSleep();
   }
