@@ -21,12 +21,12 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 PLR1_NAME = "OmnicubePlayer1"
 PLR1_SERVICE_UUID = "3f1e2b44-f0fa-420a-8630-dfb2e2ebda8e"
 PLR1_CHARACTERISTIC_UUID = "2315f48e-a7e5-42d1-b3fa-36fad4994d81"
-player1_input = [0, 0, 0, 0, 0, 0] # 0=up, 1=right, 2=down, 3=left, 4=b, 5=a
+player1_input = [0, 0, 0, 0, 0, 0] # 0=up, 1=right, 2=down, 3=left, 4=b/cancel, 5=a/confirm
 
 PLR2_NAME = "OmnicubePlayer2"
 PLR2_SERVICE_UUID = "26478d74-e7d2-48f9-8b20-c10f0fdd20d6"
 PLR2_CHARACTERISTIC_UUID = "2c8a15df-2c93-4a4b-bb1e-392a74e44864"
-player2_input = [0, 0, 0, 0, 0, 0] # 0=up, 1=right, 2=down, 3=left, 4=b, 5=a
+player2_input = [0, 0, 0, 0, 0, 0] # 0=up, 1=right, 2=down, 3=left, 4=b/cancel, 5=a/confirm
 
 client1 = None
 client2 = None
