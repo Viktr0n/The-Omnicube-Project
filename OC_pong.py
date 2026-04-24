@@ -39,7 +39,7 @@ plr2Pos = 200
 ballX = 400 # distance from top in portrait
 ballY = 240 # distance from left wall in portrait
 
-ballSpeed = 20
+ballSpeed = 30
 ballDirection = 270
 
 minBounceAngle = 30 # the minimum angle the ball can bounce of a player
@@ -114,7 +114,7 @@ def pause():
 		display.txt_set_cursor(int(display.width/8), int(display.height/8))
 		display.txt_write("plr 1")
 	else:
-		display.txt_set_cursor(int(display.width/8), int(display.width/8))
+		display.txt_set_cursor(int(display.width/8), int(display.height/8))
 		display.txt_trans(BLACK)
 		display.txt_write("plr 1")
 		display.txt_trans(WHITE)
@@ -123,7 +123,7 @@ def pause():
 		display.txt_set_cursor(int(display.width/8), int(display.height/8*6))
 		display.txt_write("plr 2")
 	else:
-		display.txt_set_cursor(int(display.width/8), int(display.width/8*5))
+		display.txt_set_cursor(int(display.width/8), int(display.height/8*6))
 		display.txt_trans(BLACK)
 		display.txt_write("plr 2")
 		display.txt_trans(WHITE)
@@ -164,7 +164,7 @@ def update_display():
 		ballDirection = map(ballY-plr2Pos, 99, -19, minBounceAngle, 180-minBounceAngle)
 
 	# ball x wall collision detection
-	if ballY < 10 or ballY > display.height-25: # left wall
+	if ballY < 12 or ballY > display.height-25: # left wall
 		ballDirection = 180-ballDirection
 	ballDirection = ballDirection % 360
 	ballX -= int(math.sin(math.radians(ballDirection))*ballSpeed) # x = hight in portrait
