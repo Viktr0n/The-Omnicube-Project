@@ -11,7 +11,7 @@ from bleak import BleakClient, BleakScanner
 from adafruit_ra8875 import ra8875
 from adafruit_ra8875.ra8875 import color565
 
-# --- Configuration from XIAO Server Code ---
+# --- Configuration from XIAO Client Code ---
 PLR1_NAME = "OmnicubePlayer1"
 PLR1_SERVICE_UUID = "3f1e2b44-f0fa-420a-8630-dfb2e2ebda8e"
 PLR1_CHARACTERISTIC_UUID = "2315f48e-a7e5-42d1-b3fa-36fad4994d81"
