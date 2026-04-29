@@ -1,4 +1,4 @@
-# The-Omnicube-Project
+# Omni-Cube_Codes
 Abstract
 
 Traditional multiplayer gaming often suffers from restricted viewing angles when players are clustered around a single two-dimensional screen. The Andotrope is a display visible from 360°. It has one or two rotating screens in a cylindrical housing with a slit in. The purpose of this project was to create a gaming console with an omnidirectional screen using an Andotrope. For the display two 7” TFT displays were used with RA8875 as drivers. The Andotrope is driven by a high-torque DC motor. The component that runs the main codes is a Raspberry Pi 3 model b and its code is written in CircuitPython. The Raspberry Pi is mounted on the stationary bottom half of the chassis but needs to be connected with SPI pins to the RA8875 drivers located in the dynamic top half that is continuously rotating. A slipring is used for this. The project also has two controllers that communicate wirelessly with the Raspberry Pi using Bluetooth Low Energy. Both controllers use a Seeed Studio XIAO ESP32-S3 coded with C++ to read the states of the buttons and to connect to the Raspberry Pi with BLE. 
