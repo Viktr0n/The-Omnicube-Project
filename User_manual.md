@@ -1,4 +1,4 @@
-Full User Manual
+## Full User Manual
 This manual will guide you through the basic operations and features of the Omni-Cube game console.
 
 You will need: 
@@ -6,30 +6,30 @@ You will need:
 * A barrel plug power cord with 12 V and 6 A
 * A USB-C cable
 
-Startup
+### Startup
 Make sure that the batteries for the handheld controllers are charged. If not, charge them with the USB-C cable.
 Plug in the Raspberry Pi and the external power supply to a power outlet with the Micro-USB cable.
 Wait for the Raspberry Pi to finish startup. The motor and the display should turn on automatically after the startup, which takes around a minute.
 
-Maneuvering the main menu
+### Maneuvering the main menu
 Wake the controllers from deep sleep by pressing up on the d-pad.
 The controllers should automatically connect to the Raspberry Pi.
 Move the selection up in the main menu by pressing up on the d-pad, and down by pressing down.
 Press the A button when selecting one of the buttons in the main menu. There are currently only two working buttons, the “Power Off” button turns of the display, and the “Pong” button which starts the game Pong.
 
-Pong
+### Pong
 When starting the game, you will enter a pause menu where the code will be waiting for the controllers to connect. The code displays which controllers are connected. If the black controller is connected, “plr 1” will be written in the top left corner of the pause menu, and if the white controller is connected “plr 2” will be written in the top right corner.
 When both controllers are connected, both players need to press the A button at the same time to start the game.
 In the game, you move your character to the left by pressing left on the d-pad and right by pressing right. The black controller controls the character on top, and the white controller controls the player on the bottom.
 If a controller disconnects from the Raspberry Pi, the game will open the pause menu and can be started again the same way as in step 2.
 To stop the pong game and to return to the main menu, both controllers need to be connected and then press the B button. This can be done both during the pause menu and during the game.
 
-Controllers
+### Controllers
 You can force a controller to enter deep sleep by pressing and holding the A and B button for 2.5 seconds. This is a way to restart the controller if it doesn’t connect to the Raspberry Pi.
 The controller enters deep sleep if no buttons are pressed for 2 minutes.
 The controllers awake from deep sleep when the up button on the d-pad is pressed.
 
-Adding more games
+### Adding more games
 Here is a step by step tutorial on how to add a new game to the Omni-Cube.
 Plug in a monitor, a keyboard and a mouse to the Raspberry Pi or access it remotely with for example Windows App Remote Desktop.
 Create a new .py file in the same folder as the previous programmes. In this project Geany was used for this, but other text editors work as well.
